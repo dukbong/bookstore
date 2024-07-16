@@ -7,5 +7,6 @@ import java.util.Optional;
 
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 
-    List<Category> findByTypeIn(List<CategoryType> categoryTypes);
+	// SELECT * FROM CATEGORY WHERE TYPE IN ( ... )
+    List<Category> findAllByTypeIn(List<CategoryType> categoryTypes);
 }

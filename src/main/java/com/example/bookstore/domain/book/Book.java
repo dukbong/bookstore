@@ -1,9 +1,18 @@
 package com.example.bookstore.domain.book;
 
 import com.example.bookstore.domain.category.Category;
-import jakarta.persistence.*;
-import jakarta.validation.Valid;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -21,11 +30,22 @@ public class Book {
     private String author;
 
     private int views;
-
+    
     @ManyToOne(fetch = FetchType.LAZY)
     private Category category;
 
     @Enumerated(EnumType.STRING)
     private BookStatus bookStatus;
+
+    @Builder
+	public Book(String title, String author, int views, Category category, BookStatus bookStatus) {
+		this.title = title;
+		this.author = author;
+		this.views = views;
+		this.category = category;
+		this.bookStatus = bookStatus;
+	}
+    
+    
 
 }

@@ -22,7 +22,7 @@ public class BookService {
     private final CategoryRepository categoryRepository;
 
     public List<Book> findByCategory(BookCategoryServiceRequest request) {
-        List<Category> category = categoryRepository.findByTypeIn(request.getCategoryTypes());
+        List<Category> category = categoryRepository.findAllByTypeIn(request.getCategoryTypes());
 
         return bookRepository.findAllByCategoryIn(category);
     }

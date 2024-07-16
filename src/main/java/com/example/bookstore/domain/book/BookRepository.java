@@ -9,5 +9,6 @@ import java.util.List;
 
 public interface BookRepository extends JpaRepository<Book, Long> {
 
+	// SELECT * FROM BOOK WHERE CATEGORY_ID IN ( ... )
     List<Book> findAllByCategoryIn(List<Category> category);
 }
