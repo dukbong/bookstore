@@ -23,6 +23,10 @@ public class BookService {
 
     public List<Book> findByCategory(BookCategoryServiceRequest request) {
         List<Category> category = categoryRepository.findAllByTypeIn(request.getCategoryTypes());
+        
+        if(category.isEmpty()) {
+        	throw new IllegalArgumentException("해당 카테고리는 존재하지 않습니다.");
+        }
 
         return bookRepository.findAllByCategoryIn(category);
     }
