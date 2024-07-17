@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CategoryTypeTest {
 
-    @DisplayName("카테코리 타입이 맞는지 확인한다.")
+    @DisplayName("카테코리 타입이 맞는지 확인후 결과를 반환한다.")
     @Test
     void containAll() {
         // given
