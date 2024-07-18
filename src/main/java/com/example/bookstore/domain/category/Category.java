@@ -1,5 +1,6 @@
 package com.example.bookstore.domain.category;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,12 +31,15 @@ public class Category {
     @Enumerated(EnumType.STRING)
     private CategoryType type;
 
+    private LocalDateTime createdAt;
+
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private List<Book> books = new ArrayList<>();
 
     @Builder
-	public Category(CategoryType type) {
+	public Category(CategoryType type, LocalDateTime createdAt) {
 		this.type = type;
+        this.createdAt = createdAt;
 	}
-    
+
 }

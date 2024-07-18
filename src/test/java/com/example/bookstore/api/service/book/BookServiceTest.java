@@ -84,29 +84,29 @@ public class BookServiceTest extends IntegrationTestSupport {
 				);
 	}
 
-    @DisplayName("카테고리에 책이 없는 경우 오류가 발생한다.")
-    @Test
-    void findByCategoryWithEmpty() {
-    	// given
-    	Category category1 = Category.builder().type(CategoryType.ACTION).build();
-		Category category2 = Category.builder().type(CategoryType.DRAMA).build();
-    	
-		categoryRepository.saveAll(List.of(category1, category2));
+		@DisplayName("카테고리에 책이 없는 경우 오류가 발생한다.")
+		@Test
+		void findByCategoryWithEmpty() {
+			// given
+			Category category1 = Category.builder().type(CategoryType.ACTION).build();
+			Category category2 = Category.builder().type(CategoryType.DRAMA).build();
 
-    	// when && then
-		assertThatThrownBy(() -> bookService.findByCategory(List.of("COMEDY")))
-				.isInstanceOf(IllegalArgumentException.class)
-				.hasMessage("해당 카테고리에 책이 존재하지 않습니다.");
-    }
+			categoryRepository.saveAll(List.of(category1, category2));
 
-	@DisplayName("잘못된 카테고리를 요청하면 오류가 발생한다.")
-	@Test
-	void findByCategoryWithValid() {
-		// given
-		Category category1 = Category.builder().type(CategoryType.ACTION).build();
-		Category category2 = Category.builder().type(CategoryType.DRAMA).build();
+			// when && then
+			assertThatThrownBy(() -> bookService.findByCategory(List.of("COMEDY")))
+					.isInstanceOf(IllegalArgumentException.class)
+					.hasMessage("해당 카테고리에 책이 존재하지 않습니다.");
+		}
 
-		categoryRepository.saveAll(List.of(category1, category2));
+		@DisplayName("잘못된 카테고리를 요청하면 오류가 발생한다.")
+		@Test
+		void findByCategoryWithValid() {
+			// given
+			Category category1 = Category.builder().type(CategoryType.ACTION).build();
+			Category category2 = Category.builder().type(CategoryType.DRAMA).build();
+
+			categoryRepository.saveAll(List.of(category1, category2));
 
 		// when && then
 		assertThatThrownBy(() -> bookService.findByCategory(List.of("HISTORY")))
