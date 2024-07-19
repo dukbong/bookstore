@@ -6,6 +6,8 @@ import static org.assertj.core.api.Assertions.tuple;
 
 import java.util.List;
 
+import com.example.bookstore.api.controller.book.dto.request.BookCreateRequest;
+import com.example.bookstore.api.controller.book.dto.response.BookResponse;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -112,5 +114,27 @@ public class BookServiceTest extends IntegrationTestSupport {
 		assertThatThrownBy(() -> bookService.findByCategory(List.of("HISTORY")))
 				.isInstanceOf(IllegalArgumentException.class)
 				.hasMessage("요청 중 존재하지 않는 카테코리가 있습니다.");
+	}
+
+	@DisplayName("책을 저장할 수 있다.")
+	@Test
+	void createBook() {
+		// given
+		Category category1 = Category.builder().type(CategoryType.ACTION).build();
+		categoryRepository.save(category1);
+
+		BookCreateRequest request = BookCreateRequest.builder()
+				.title("testbook")
+				.author("test")
+				.type(CategoryType.ACTION)
+				.build();
+
+		// when
+		BookResponse result = bookService.createBook(request);
+
+		// then
+		assertThat(result)
+				.extracting("title", "author", "type")
+				.contains("testbook", "test", CategoryType.ACTION);
 	}
 }

@@ -1,7 +1,7 @@
 package com.example.bookstore.api.service.book;
 
-import com.example.bookstore.api.controller.book.dto.request.BookCategoryRequest;
-import com.example.bookstore.api.service.book.request.BookCategoryServiceRequest;
+import com.example.bookstore.api.controller.book.dto.request.BookCreateRequest;
+import com.example.bookstore.api.controller.book.dto.response.BookResponse;
 import com.example.bookstore.domain.book.Book;
 import com.example.bookstore.domain.book.BookRepository;
 import com.example.bookstore.domain.category.Category;
@@ -10,7 +10,6 @@ import com.example.bookstore.domain.category.CategoryType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 
 import java.util.List;
 
@@ -40,4 +39,12 @@ public class BookService {
         return bookRepository.findAllByCategoryIn(category);
     }
 
+    @Transactional
+    public BookResponse createBook(BookCreateRequest request) {
+        Category category = categoryRepository.findByType(request.getType());
+
+        Book createBook = bookRepository.save(request.ofEntity(category));
+
+        return BookResponse.of(createBook);
+    }
 }

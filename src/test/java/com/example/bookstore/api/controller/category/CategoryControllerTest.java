@@ -47,4 +47,5 @@ class CategoryControllerTest extends ControllerTestSupport {
                 .andExpect(jsonPath("$.httpStatus").value("BAD_REQUEST"))
                 .andExpect(jsonPath("$.message").value("카테고리 이름은 비어있을 수 없습니다."));
     }
+
 }

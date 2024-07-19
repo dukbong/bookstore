@@ -1,6 +1,5 @@
 package com.example.bookstore.api.controller.book.dto.request;
 
-import com.example.bookstore.api.service.book.request.BookCategoryServiceRequest;
 import com.example.bookstore.domain.category.CategoryType;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
@@ -21,7 +20,4 @@ public class BookCategoryRequest {
         this.categoryTypes = categoryTypes;
     }
 
-    public BookCategoryServiceRequest toServiceRequest() {
-        return BookCategoryServiceRequest.builder().categoryTypes(this.categoryTypes).build();
-    }
 }
