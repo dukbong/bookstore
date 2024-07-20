@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.tuple;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
@@ -187,8 +188,10 @@ public class BookServiceTest extends IntegrationTestSupport {
 				.cancelCondition(false)
 				.build();
 		
+		LocalDateTime now = LocalDateTime.of(2024, 7, 20, 19, 0);
+		
 		// when
-		BooksResponse result = bookService.rentalBook(request);
+		BooksResponse result = bookService.rentalBook(request, now);
 		
 		// then
 		assertThat(result.getBooks()).hasSize(1);
@@ -196,6 +199,7 @@ public class BookServiceTest extends IntegrationTestSupport {
 		
 		Book resultBook = bookRepository.findByTitle("test1").get();
 		assertThat(resultBook.getBookStatus()).isEqualTo(BookStatus.RENTAL);
+		assertThat(resultBook.getRentalAt()).isEqualTo(now);
 	}
 	
 	@DisplayName("책을 렌탈 할 수 있다. [조건 : 렌탈할 수 있는게 없다면 오류가 난다.]")
@@ -230,8 +234,10 @@ public class BookServiceTest extends IntegrationTestSupport {
 				.cancelCondition(true)
 				.build();
 		
+		LocalDateTime now = LocalDateTime.now();
+		
 		// when & that
-		assertThatThrownBy(() -> bookService.rentalBook(request))
+		assertThatThrownBy(() -> bookService.rentalBook(request, now))
 			.isInstanceOf(IllegalArgumentException.class)
 			.hasMessage("현재 리스트 중 렌탈이 불가능한 책이 존재합니다.");
 		

@@ -1,5 +1,6 @@
 package com.example.bookstore.api.controller.book;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,6 +38,7 @@ public class BookController {
     
     @PostMapping("/api/v1/books/rental")
     public ApiResponse<BooksResponse> rentalBook(@Valid @RequestBody BookRentalRequest request) {
-    	return ApiResponse.ok(bookService.rentalBook(request));
+    	LocalDateTime rentalAt = LocalDateTime.now();
+    	return ApiResponse.ok(bookService.rentalBook(request, rentalAt));
     }
 }

@@ -1,5 +1,6 @@
 package com.example.bookstore.api.service.book;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -18,7 +19,6 @@ import com.example.bookstore.domain.category.Category;
 import com.example.bookstore.domain.category.CategoryRepository;
 import com.example.bookstore.domain.category.CategoryType;
 
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -61,7 +61,7 @@ public class BookService {
     }
 
     @Transactional
-	public BooksResponse rentalBook(@Valid BookRentalRequest request) {
+	public BooksResponse rentalBook(BookRentalRequest request, LocalDateTime rentalAt) {
     	
     	List<Book> bookUpdateList = new ArrayList<>();
     	
@@ -74,7 +74,7 @@ public class BookService {
     		
     		if (bookToUpdate.isPresent()) {
     			Book book = bookToUpdate.get(); 
-    			book.updateBookStatus();
+    			book.updateBookStatus(rentalAt);
     			bookUpdateList.add(book);
     		} else {
     			if(request.isCancelCondition()) {

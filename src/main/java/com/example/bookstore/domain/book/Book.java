@@ -50,8 +50,9 @@ public class Book extends BaseEntity {
 		this.bookStatus = bookStatus;
 	}
 
-	public void updateBookStatus() {
+	public void updateBookStatus(LocalDateTime rentalAt) {
 		this.bookStatus = BookStatus.RENTAL;
+		this.rentalAt = rentalAt;
 	}
     
     
