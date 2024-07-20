@@ -81,5 +81,57 @@ class BookRepositoryTest extends IntegrationTestSupport {
     			);
     	
     }
+    
+    @DisplayName("현재 보관 중인 책을 조회할 수 있다.")
+    @Test
+    void findAllByTitleInAndBookStatus() {
+    	// given
+    	Category category1 = Category.builder()
+    			.type(CategoryType.ACTION)
+    			.build();
+    	
+    	Category category2 = Category.builder()
+    			.type(CategoryType.DRAMA)
+    			.build();
+    	
+    	categoryRepository.saveAll(List.of(category1, category2));
+    	
+    	Book book1 = Book.builder()
+    			.title("test1")
+    			.author("A")
+    			.views(0)
+    			.category(category1)
+    			.bookStatus(BookStatus.KEEP)
+    			.build();
+    	
+    	Book book2 = Book.builder()
+    			.title("test2")
+    			.author("B")
+    			.views(0)
+    			.category(category2)
+    			.bookStatus(BookStatus.RENTAL)
+    			.build();
+    	
+    	Book book3 = Book.builder()
+    			.title("test3")
+    			.author("C")
+    			.views(0)
+    			.category(category1)
+    			.bookStatus(BookStatus.KEEP)
+    			.build();
+    	
+    	bookRepository.saveAll(List.of(book1, book2, book3));
+    	
+    	// when
+    	List<Book> result = bookRepository.findAllByTitleInAndBookStatus(List.of("test1", "test2"), BookStatus.KEEP);
+    	
+    	// then
+    	assertThat(result).hasSize(1)
+    	.extracting("title", "author")
+    	.containsExactlyInAnyOrder(
+    			tuple("test1", "A")
+    			);
+    	
+    }
 
 }

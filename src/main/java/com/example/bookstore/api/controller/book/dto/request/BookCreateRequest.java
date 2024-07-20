@@ -5,10 +5,7 @@ import com.example.bookstore.domain.book.Book;
 import com.example.bookstore.domain.book.BookStatus;
 import com.example.bookstore.domain.category.Category;
 import com.example.bookstore.domain.category.CategoryType;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.ManyToOne;
+
 import jakarta.validation.constraints.NotBlank;
 import lombok.AccessLevel;
 import lombok.Builder;
