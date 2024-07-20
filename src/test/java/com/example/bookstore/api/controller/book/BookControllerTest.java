@@ -2,6 +2,7 @@ package com.example.bookstore.api.controller.book;
 
 import com.example.bookstore.ControllerTestSupport;
 import com.example.bookstore.api.controller.book.dto.request.BookCreateRequest;
+import com.example.bookstore.api.controller.book.dto.request.BookRentalRequest;
 import com.example.bookstore.domain.category.CategoryType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -117,5 +118,42 @@ class BookControllerTest extends ControllerTestSupport {
                 .andExpect(jsonPath("$.code").value("400"))
                 .andExpect(jsonPath("$.httpStatus").value("BAD_REQUEST"))
                 .andExpect(jsonPath("$.message").value("책의 카테고리는 필수 입력사항입니다."));
+    }
+    
+    @DisplayName("책을 렌탈한다.")
+    @Test
+    void rentalBooks() throws Exception {
+    	// given
+    	BookRentalRequest request = BookRentalRequest.builder()
+    			.books(List.of("test1", "test2"))
+    			.cancelCondition(false)
+    			.build();
+    	
+    	// when & then
+    	mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/books/rental")
+    			.content(objectMapper.writeValueAsString(request))
+    			.contentType(MediaType.APPLICATION_JSON))
+    	.andDo(MockMvcResultHandlers.print())
+    	.andExpect(MockMvcResultMatchers.status().isOk());
+    }
+    
+    @DisplayName("책을 렌탈할때 제목은 비어있을 수 없다.")
+    @Test
+    void rentalBooksWithEmptyTitle() throws Exception {
+    	// given
+    	BookRentalRequest request = BookRentalRequest.builder()
+    			.books(List.of())
+    			.cancelCondition(false)
+    			.build();
+    	
+    	// when & then
+    	mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/books/rental")
+    			.content(objectMapper.writeValueAsString(request))
+    			.contentType(MediaType.APPLICATION_JSON))
+    	.andDo(MockMvcResultHandlers.print())
+        .andExpect(MockMvcResultMatchers.status().isBadRequest())
+        .andExpect(jsonPath("$.code").value("400"))
+        .andExpect(jsonPath("$.httpStatus").value("BAD_REQUEST"))
+        .andExpect(jsonPath("$.message").value("책 제목(들)은 필수 입력사항입니다."));
     }
 }
