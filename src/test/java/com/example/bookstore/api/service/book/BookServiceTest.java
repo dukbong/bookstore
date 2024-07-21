@@ -53,7 +53,7 @@ public class BookServiceTest extends IntegrationTestSupport {
 		Book book1 = Book.builder()
 				.title("test1")
 				.author("A")
-				.views(0)
+				.rentalCount(0)
 				.category(category1)
 				.bookStatus(BookStatus.KEEP)
 				.build();
@@ -61,7 +61,7 @@ public class BookServiceTest extends IntegrationTestSupport {
 		Book book2 = Book.builder()
 				.title("test2")
 				.author("B")
-				.views(0)
+				.rentalCount(0)
 				.category(category2)
 				.bookStatus(BookStatus.RENTAL)
 				.build();
@@ -69,7 +69,7 @@ public class BookServiceTest extends IntegrationTestSupport {
 		Book book3 = Book.builder()
 				.title("test3")
 				.author("C")
-				.views(0)
+				.rentalCount(0)
 				.category(category1)
 				.bookStatus(BookStatus.KEEP)
 				.build();
@@ -168,7 +168,7 @@ public class BookServiceTest extends IntegrationTestSupport {
 		Book book1 = Book.builder()
 				.title("test1")
 				.author("A")
-				.views(0)
+				.rentalCount(0)
 				.category(category1)
 				.bookStatus(BookStatus.KEEP)
 				.build();
@@ -176,7 +176,7 @@ public class BookServiceTest extends IntegrationTestSupport {
 		Book book2 = Book.builder()
 				.title("test2")
 				.author("B")
-				.views(0)
+				.rentalCount(0)
 				.category(category2)
 				.bookStatus(BookStatus.RENTAL)
 				.build();
@@ -200,6 +200,8 @@ public class BookServiceTest extends IntegrationTestSupport {
 		Book resultBook = bookRepository.findByTitle("test1").get();
 		assertThat(resultBook.getBookStatus()).isEqualTo(BookStatus.RENTAL);
 		assertThat(resultBook.getRentalAt()).isEqualTo(now);
+		assertThat(resultBook.getReturnAt()).isEqualTo(now.plusDays(7));
+		assertThat(resultBook.getRentalCount()).isEqualTo(1);
 	}
 	
 	@DisplayName("책을 렌탈 할 수 있다. [조건 : 렌탈할 수 있는게 없다면 오류가 난다.]")
@@ -214,7 +216,7 @@ public class BookServiceTest extends IntegrationTestSupport {
 		Book book1 = Book.builder()
 				.title("test1")
 				.author("A")
-				.views(0)
+				.rentalCount(0)
 				.category(category1)
 				.bookStatus(BookStatus.KEEP)
 				.build();
@@ -222,7 +224,7 @@ public class BookServiceTest extends IntegrationTestSupport {
 		Book book2 = Book.builder()
 				.title("test2")
 				.author("B")
-				.views(0)
+				.rentalCount(0)
 				.category(category2)
 				.bookStatus(BookStatus.RENTAL)
 				.build();
@@ -240,6 +242,5 @@ public class BookServiceTest extends IntegrationTestSupport {
 		assertThatThrownBy(() -> bookService.rentalBook(request, now))
 			.isInstanceOf(IllegalArgumentException.class)
 			.hasMessage("현재 리스트 중 렌탈이 불가능한 책이 존재합니다.");
-		
 	}
 }

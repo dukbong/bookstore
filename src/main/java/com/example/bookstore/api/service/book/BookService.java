@@ -65,7 +65,8 @@ public class BookService {
     	
     	List<Book> bookUpdateList = new ArrayList<>();
     	
-    	List<Book> findBooks = bookRepository.findAllByTitleInAndBookStatus(request.getBooks(), BookStatus.KEEP);
+//    	List<Book> findBooks = bookRepository.findAllByTitleInAndBookStatus(request.getBooks(), BookStatus.KEEP);
+    	List<Book> findBooks = bookRepository.findAllByTitleInAndBookStatusAndRentalCountLessThanEqual(request.getBooks(), BookStatus.KEEP, 10);
     	
     	for(String title : request.getBooks()) {
     		Optional<Book> bookToUpdate = findBooks.stream()
@@ -85,5 +86,5 @@ public class BookService {
     	
 		return BooksResponse.of(bookUpdateList);
 	}
-    
+
 }

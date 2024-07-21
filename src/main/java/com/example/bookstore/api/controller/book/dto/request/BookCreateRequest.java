@@ -34,7 +34,7 @@ public class BookCreateRequest {
         return Book.builder()
                 .title(this.title)
                 .author(this.author)
-                .views(0)
+                .rentalCount(0)
                 .bookStatus(BookStatus.KEEP)
                 .category(category)
                 .build();

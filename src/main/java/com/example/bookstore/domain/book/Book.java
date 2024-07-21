@@ -31,9 +31,11 @@ public class Book extends BaseEntity {
 
     private String author;
 
-    private int views;
+    private int rentalCount;
 
     private LocalDateTime rentalAt;
+    
+    private LocalDateTime returnAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Category category;
@@ -42,10 +44,10 @@ public class Book extends BaseEntity {
     private BookStatus bookStatus;
 
     @Builder
-	public Book(String title, String author, int views, Category category, BookStatus bookStatus) {
+	public Book(String title, String author, int rentalCount, Category category, BookStatus bookStatus) {
 		this.title = title;
 		this.author = author;
-		this.views = views;
+		this.rentalCount = rentalCount;
 		this.category = category;
 		this.bookStatus = bookStatus;
 	}
@@ -53,6 +55,8 @@ public class Book extends BaseEntity {
 	public void updateBookStatus(LocalDateTime rentalAt) {
 		this.bookStatus = BookStatus.RENTAL;
 		this.rentalAt = rentalAt;
+		this.returnAt = rentalAt.plusDays(7);
+		this.rentalCount = this.rentalCount + 1;
 	}
     
     

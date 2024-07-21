@@ -41,4 +41,5 @@ public class BookController {
     	LocalDateTime rentalAt = LocalDateTime.now();
     	return ApiResponse.ok(bookService.rentalBook(request, rentalAt));
     }
+    
 }

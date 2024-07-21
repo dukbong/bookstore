@@ -14,6 +14,9 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
 	// SELECT * FROM BOOK WHERE TITLE IN ( ... ) AND BOOKSTATUS = ?
 	List<Book> findAllByTitleInAndBookStatus(List<String> books, BookStatus keep);
+	
+	// SELECT * FROM BOOK WHERE TITLE IN ( ... ) AND BOOKSTATUS = ? AND RENTALCOUNT >= 10
+	List<Book> findAllByTitleInAndBookStatusAndRentalCountLessThanEqual(List<String> books, BookStatus keep, int rentalCount);
 
 	// SELECT * FROM BOOK WHERE TITLE = ?
 	Optional<Book> findByTitle(String title);
